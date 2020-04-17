@@ -62,7 +62,7 @@ def infer_bindings(callable):
 
 def autoargs(init):
     """
-    Code taken from https://stackoverflow.com/questions/28443527/python-decorator-to-automatically-define-init-variables
+    Ref: https://stackoverflow.com/questions/3652851/what-is-the-best-way-to-do-automatic-attribute-assignment-in-python-and-is-it-a
 
     :param init:
     :return:
@@ -94,7 +94,7 @@ def autoargs(init):
 
 def populate_self(self):
     """
-    Code taken from https://stackoverflow.com/questions/28443527/python-decorator-to-automatically-define-init-variables
+    Ref: https://stackoverflow.com/questions/28443527/python-decorator-to-automatically-define-init-variables
 
     Function to set instance attributes automatically using arguments passed to `__init__`.
     From __init__, call it like:
