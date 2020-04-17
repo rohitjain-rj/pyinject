@@ -1,17 +1,7 @@
-import functools
-import os
-
+from .named_type import NamedType
 
 instances = dict()
-event_handlers = dict()
 instances_to_register = []
-event_handlers_to_register = dict()
-
-
-class NamedType(object):
-    def __init__(self, type, name=None):
-        self.type = type
-        self.name = name
 
 
 def locate_instance(clazz):
@@ -28,18 +18,6 @@ def register_instance(for_type=None, dependencies=None, arguments=None):
         if not instance_type:
             instance_type = cls
         instances_to_register.append((instance_type, cls, dependencies, arguments))
-        return cls
-
-    return register
-
-
-def get_event_handler(event_type):
-    return event_handlers.get(event_type)
-
-
-def register_event_handler(event_type):
-    def register(cls):
-        event_handlers_to_register[event_type] = cls
         return cls
 
     return register
@@ -63,33 +41,4 @@ def finalize_object_graph():
         else:
             instances[instance_type] = instance
 
-    for event_type, cls in event_handlers_to_register.items():
-        event_handlers[event_type] = locate_instance(cls)
 
-
-def inject(**services_to_inject):
-    """
-    :return:
-    """
-
-    def real_decorator(func):
-        def wrapper(*args, **kwargs):
-            """
-            Wrapper
-            :param args:
-            :param kwargs:
-            :return:
-            """
-            try:
-
-                dependencies = dict()
-                for service_name, service_class in services_to_inject.items():
-                    dependencies[service_name] = locate_instance(service_class)
-                r_val = func(*args, **kwargs, **dependencies)
-                return r_val
-            except Exception as e:
-                raise e
-
-        return functools.update_wrapper(wrapper, func)
-
-    return real_decorator
