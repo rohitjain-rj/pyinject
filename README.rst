@@ -2,13 +2,13 @@ This project provides support for dependency injection for Python projects.
 
 Usage:
 
-* Use ``@register_instance()`` class level decorator, to register an instance of a class. You can pass the ``for_type`` for interface, which this class implements. All dependencies and fixed arguments can be passed in ``dependencies`` and ``arguments`` parameters respectively.
+* Use ``@pyinject.object_registry.register_instance()`` class level decorator, to register an instance of a class. You can pass the ``for_type`` for interface, which this class implements. All dependencies and fixed arguments can be passed in ``dependencies`` and ``arguments`` parameters respectively.
 
-* If you're registering multiple class, against same interface, you can pass ``NamedType`` to ``for_type`` argument, by giving specific name to this class implementation, along with interface name.
+* If you're registering multiple class, against same interface, you can pass ``pyinject.object_registry.NamedType`` to ``for_type`` argument, by giving specific name to this class implementation, along with interface name.
 
-* On a function, use ``@inject`` decorator, to inject specific type of dependency.
+* On a function, use ``@pyinject.object_registry.inject`` decorator, to inject specific type of dependency.
 
-* Also, in order to fetch the registered instance at any point in the code, you can use ``locate_instance()`` function, by passing required interface name, or ``NamedType``, if you're implementing multiple classes for a given interface.
+* Also, in order to fetch the registered instance at any point in the code, you can use ``pyinject.object_registry.locate_instance()`` function, by passing required interface name, or ``NamedType``, if you're implementing multiple classes for a given interface.
 
 
 E.g.:
