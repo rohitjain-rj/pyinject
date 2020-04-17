@@ -1,5 +1,6 @@
 import abc
 import pyinject
+from pyinject import autoinject, autoargs
 
 
 class MyInterface(metaclass=abc.ABCMeta):
@@ -17,10 +18,13 @@ class MyClass(MyInterface):
         print(self.__class__.__name__)
 
 
-@pyinject.register_instance(dependencies=[MyInterface])
+@pyinject.register_instance()
 class ClassNamePrinter(object):
-    def __init__(self, class_to_print_name):
-        self.class_to_print_name = class_to_print_name
+    @autoinject  # executed first, binds the dependencies with the init parameters
+    @autoargs  # executed after init parameters are already binded, and sets the instance attributes, with same init
+    # param name
+    def __init__(self, class_to_print_name: MyInterface):
+        pass
 
     def print_class_name(self):
         self.class_to_print_name.print_class_name()
@@ -34,10 +38,12 @@ def test_all_instances_registered():
 
 
 def test_dependency_injected():
-    @pyinject.register_instance(dependencies=[MyInterface])
+    @pyinject.register_instance()
     class TestClass(object):
-        def __init__(self, class_to_print_name):
-            self.class_to_print_name = class_to_print_name
+        @autoinject
+        @autoargs
+        def __init__(self, class_to_print_name: MyInterface):
+            pass
 
     pyinject.finalize_object_graph()
     my_class = pyinject.locate_instance(TestClass)

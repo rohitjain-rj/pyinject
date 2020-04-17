@@ -2,7 +2,9 @@ This project provides support for dependency injection for Python projects.
 
 Usage:
 
-* Use ``@pyinject.register_instance()`` class level decorator, to register an instance of a class. You can pass the ``for_type`` for interface, which this class implements. All dependencies and fixed arguments can be passed in ``dependencies`` and ``arguments`` parameters respectively.
+* Use ``@pyinject.register_instance()`` class level decorator, to register an instance of a class. You can pass the ``for_type`` for interface, which this class implements.
+
+* Use ``@pyinject.autoinject`` decorator on ``__init__`` function, to inject dependencies, based on type annotation
 
 * If you're registering multiple class, against same interface, you can pass ``pyinject.NamedType`` to ``for_type`` argument, by giving specific name to this class implementation, along with interface name.
 
@@ -30,9 +32,10 @@ E.g.:
         def print_class_name(self):
             print(self.__class__.__name__)
 
-    @pyinject.register_instance(dependencies=[MyInterface])
+    @pyinject.register_instance()
     class ClassNamePrinter(object):
-        def __init__(self, class_to_print_name):
+        @autoinject
+        def __init__(self, class_to_print_name: MyInterface):
             class_to_print_name.print_class_name()
 
         def print_class_name(self):
